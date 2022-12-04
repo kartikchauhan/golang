@@ -26,7 +26,7 @@ type Director struct {
 var movies []Movie
 
 func homePageHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Print(w, "Welcome to LMDB!")
+	fmt.Fprint(w, "Welcome to LMDB!")
 }
 
 func getMovies(w http.ResponseWriter, r *http.Request) {
@@ -66,8 +66,8 @@ func updateMovie(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 
-	for i, movie := range movies {
-		if movie.ID == params["id"] {
+	for i, item := range movies {
+		if item.ID == params["id"] {
 			// delete the existing entry
 			movies = append(movies[:i], movies[i+1:]...)
 
@@ -77,6 +77,7 @@ func updateMovie(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
+			movie.ID = params["id"]
 			movies = append(movies, movie)
 
 			json.NewEncoder(w).Encode(movie)
@@ -129,7 +130,7 @@ func main() {
 
 	log.Print("Listening on port 8080")
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(":8080", r); err != nil {
 		log.Fatal(err)
 	}
 }
