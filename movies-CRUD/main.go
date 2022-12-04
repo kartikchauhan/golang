@@ -50,7 +50,6 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	var movie Movie
-
 	if err := json.NewDecoder(r.Body).Decode(&movie); err != nil {
 		log.Fatal(err)
 		return
@@ -60,6 +59,26 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 	movies = append(movies, movie)
 
 	json.NewEncoder(w).Encode(movie)
+}
+
+func updateMovie(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+
+	for i, movie := range movies {
+		if movie.ID == params["id"] {
+			// delete the existing entry
+			movies = append(movies[:i], movies[i+1:]...)
+
+			var movie Movie
+			if err := json.NewDecoder(r.Body).Decode(&movie); err != nil {
+				log.Fatal(err)
+				return
+			}
+
+			movies = append(movies, movie)
+			return
+		}
+	}
 }
 
 func deleteMovie(w http.ResponseWriter, r *http.Request) {
@@ -102,7 +121,7 @@ func main() {
 	r.HandleFunc("/movies", getMovies).Methods("GET")
 	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
 	r.HandleFunc("/movies", createMovie).Methods("POST")
-	// r.HandleFunc("/movies/{id}", updateMovie).Methods("PUT")
+	r.HandleFunc("/movies/{id}", updateMovie).Methods("PUT")
 	r.HandleFunc("/movies/{id}", deleteMovie).Methods("DELETE")
 
 	log.Print("Listening on port 8080")
