@@ -44,6 +44,9 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	w.WriteHeader(http.StatusNotFound)
+	fmt.Fprintf(w, "No records found")
 }
 
 func createMovie(w http.ResponseWriter, r *http.Request) {
