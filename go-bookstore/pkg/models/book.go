@@ -1,8 +1,7 @@
 package models
 
 import (
-	_ "example.com/my_mysql_driver"
-	"github.com/go-delve/delve/pkg/config"
+	"github.com/kartikchauhan/go-bookstore/pkg/config"
 	"gorm.io/gorm"
 )
 
@@ -24,8 +23,9 @@ func Init() {
 }
 
 func (b *Book) CreateBook() *Book {
-	db.NewRecord(b)
-	db.Crete(&b)
+	// db.NewRecord(b)
+
+	db.Create(&b)
 
 	return b
 }
