@@ -13,7 +13,7 @@ import (
 
 var NewBook models.Book
 
-func GetAllBooks(w http.ResponseWriter, r *http.Request) {
+func GetBooks(w http.ResponseWriter, r *http.Request) {
 	newBooks := models.GetAllBooks()
 	res, _ := json.Marshal(newBooks)
 
