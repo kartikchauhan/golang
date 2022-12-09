@@ -6,11 +6,10 @@ import (
 	"net/http"
 )
 
-func ParseBody(r *http.Request, x interface{}) {
+func ParseBody(r *http.Request, x any) {
 	if body, err := ioutil.ReadAll(r.Body); err == nil {
 		if err := json.Unmarshal([]byte(body), x); err != nil {
 			return
 		}
 	}
-
 }
