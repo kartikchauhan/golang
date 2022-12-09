@@ -1,17 +1,20 @@
 package config
 
 import (
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
+	"fmt"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var db *gorm.DB
 
 func Connect() {
-	dsn := "user:pass@tcp(127.0.0.1:3306)/bookstore?charset=utf8mb4&parseTime=True&loc=Local"
-	d, err := gorm.Open(mysql.Open(dsn))
+	dsn := `root:Kartik34@tcp(localhost:3306)/go-bookstore?charset=utf8&parseTime=True&loc=Local`
+	d, err := gorm.Open("mysql", dsn)
 
 	if err != nil {
+		fmt.Println(err)
 		panic(err)
 	}
 
