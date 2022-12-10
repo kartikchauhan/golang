@@ -14,6 +14,8 @@ import (
 var NewBook models.Book
 
 func GetBooks(w http.ResponseWriter, r *http.Request) {
+	utils.PrintMethod("GetBooks")
+
 	newBooks := models.GetAllBooks()
 	res, _ := json.Marshal(newBooks)
 
@@ -23,8 +25,11 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetBookById(w http.ResponseWriter, r *http.Request) {
+	utils.PrintMethod("GetBookById")
+
 	params := mux.Vars(r)
 	id := params["id"]
+
 	bookId, err := strconv.ParseInt(id, 0, 0)
 	if err != nil {
 		fmt.Println("Error while parsing")
@@ -39,6 +44,8 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateBook(w http.ResponseWriter, r *http.Request) {
+	utils.PrintMethod("CreateBook")
+
 	Book := &models.Book{}
 	utils.ParseBody(r, Book)
 
@@ -51,6 +58,8 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	utils.PrintMethod("DeleteBook")
+
 	params := mux.Vars(r)
 	id := params["id"]
 	bookId, err := strconv.ParseInt(id, 0, 0)
